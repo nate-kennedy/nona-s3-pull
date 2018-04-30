@@ -8,6 +8,7 @@ VERSION=$(cat $DIR/../version)
 versionCheck() {
     if git rev-parse ${VERSION} >/dev/null 2>&1; then
         echo "Found tag"
+        exit 1
     else
         echo "Tag not found"
     fi
@@ -18,7 +19,7 @@ deployImage() {
 
     docker tag nona-s3-pull:latest \
         ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:latest
-    docker tag nona-s3-pull:${VERSION} \
+    docker tag nona-s3-pull:latest \
         ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:${VERSION}
     
     docker push ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:latest
@@ -26,7 +27,7 @@ deployImage() {
 }
 
 tagVersion() {
-    git tag -a ${version}
+    git tag -a "$VERSION" -m "version $VERSION"
     git push --tags
 }
 
