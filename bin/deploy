@@ -1,0 +1,35 @@
+#! /bin/bash
+
+# Build Vars
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VERSION=$(cat $DIR/../version)
+
+# Build Script
+versionCheck() {
+    if git rev-parse ${VERSION} >/dev/null 2>&1; then
+        echo "Found tag"
+    else
+        echo "Tag not found"
+    fi
+}
+
+deployImage() {
+    eval $(aws ecr get-login --region us-east-1)
+
+    docker tag nona-s3-pull:latest \
+        ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:latest
+    docker tag nona-s3-pull:${VERSION} \
+        ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:${VERSION}
+    
+    docker push ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:latest
+    docker push ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:${VERSION}
+}
+
+tagVersion() {
+    git tag -a ${version}
+    git push --tags
+}
+
+versionCheck
+deployImage
+tagVersion
