@@ -35,7 +35,6 @@ testContainer() {
             exit 1
         fi
     done
-    rm -rf ${tmpdir}
 }
 
 testAwsCreds
