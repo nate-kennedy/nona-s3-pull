@@ -3,8 +3,7 @@ language: python
 services:
 - docker
 install:
-- pip install awscli --upgrade --user
-- export PATH=$PATH:$HOME/.local/bin
+- pip install awscli --upgrade
 script:
 - bash bin/build
 deploy:
