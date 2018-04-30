@@ -1,0 +1,44 @@
+#! /bin/bash
+
+# Build Vars
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VERSION=$(cat $DIR/../version)
+
+# Build Script
+testAwsCreds() {
+  cmnd='aws sts get-caller-identity &> /dev/null'
+  eval $cmnd
+  ret_code=$?
+  if [ $ret_code != 0 ]; then
+    printf "Error : [%d] when executing command: '$cmnd'" $ret_code
+    exit $ret_code
+  fi
+}
+
+buildContainer() {
+    cd $DIR/..
+    docker build -t nona-s3-pull .
+}
+
+testContainer() {
+    cd $DIR/..
+    tmpdir=/tmp/$RANDOM
+    mkdir ${tmpdir}
+    docker run --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+        --env NONA_S3_BUCKET=${NONA_S3_BUCKET} \
+        --volume ${tmpdir}:/data \
+        nona-s3-pull
+    for d in 'world' 'world_nether' 'world_the_end'; do
+        if [ ! -d "${tmpdir}/${d}" ]; then
+            echo "Directory '${d}' is missing. Build Failed..."
+            exit 1
+        fi
+    done
+    rm -rf ${tmpdir}
+}
+
+testAwsCreds
+buildContainer
+testContainer
+
