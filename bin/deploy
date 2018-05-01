@@ -15,7 +15,7 @@ versionCheck() {
 }
 
 deployImage() {
-    eval $(aws ecr get-login --region us-east-1)
+    eval $(aws ecr get-login --no-include-email --region us-east-1)
 
     docker tag nona-s3-pull:latest \
         ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:latest
@@ -27,6 +27,9 @@ deployImage() {
 }
 
 tagVersion() {
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "Travis CI"
+    git remote add origin https://${GIT_TOKEN}@github.com/nate-kennedy/nona-s3-pull.git/ > /dev/null 2>&1
     git tag -a "$VERSION" -m "version $VERSION"
     git push --tags
 }
