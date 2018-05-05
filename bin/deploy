@@ -23,5 +23,10 @@ tagGit() {
   git tag -a "${VERSION}" -m "version: ${VERSION}"
 }
 
+createArtifact() {
+    docker save nona-s3-pull -o nona-s3-pull.tar
+}
+
 deployImage
 tagGit
+createArtifact

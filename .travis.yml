@@ -15,7 +15,7 @@ deploy:
   - provider: releases
     api_key:
       secure: H3iE/Keenqc1LzncwkEyIhjigO33KYyGbKGcnKe+ePqE+5vT/plpEkSODEwe6Fv6nueEdUJUNFauNEhFDIp2QLP7aQexEEPY4MfkGGF9xVvaJxfqYeTIQeDlcGG72CPeJHKYWz+GQXoDLrPFmE1LUAveh80E5ns8YPqV0wIEEwG8tL3aRGh1Juxf/yvRBQRjRwcL3qUavBmU82YxAbu1Sp/0ERpYl/QDdYONzc3Iy4hGPYi3FsVkrKynquDlZ0jfGwRYulA4wFLaPUQaGVydL/sBOHecfVXX47hVIUxvTfpSZeEH1a2Mq2rjWtK9S/P7U/9zF8yqSXyxz39SHzaUcupnu8nZVaZ1gPM20Y15b2zzLxNmC8rmb/q/Awv7nxqPL/+wlqOKgROYuRrW0/TE+aCHnto7qf+GdI5lU6NRtZMcT5YfS9pFYqQZWZ59O1FE64mFr3tBanZWZKx/Sd6WVFymvIlmAyOCTpdv/wOXHBF/bB83tGLxLpD2zSlOMQOXVG35ubt6yk3hCpJbE1MwePhqQAZ5BC8KN50X2bPsZ49fP8dP+Jr9RBRB0WOgyGwoJ2w+hx9x8QnDAh2z/CE/pPKcLasag0ybcX9uDJ+ADI8qxPQiHlecLd3Xt4bCNt542hH/Hs1qU5B3Kmh5P3jfUe6KaeqdczRvY0OFsj0Rq64=
-    file: ''
+    file: 'nona-s3-pull.tar'
     on:
       branch: master
 env:
