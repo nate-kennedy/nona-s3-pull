@@ -29,7 +29,8 @@ deployImage() {
 tagVersion() {
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis CI"
-    git remote add origin https://${GIT_TOKEN}@github.com/nate-kennedy/nona-s3-pull.git/ > /dev/null 2>&1
+    git checkout https://${GIT_TOKEN}@github.com/nate-kennedy/nona-s3-pull.git/ > /dev/null 2>&1
+    cd nona-s3-pull/
     git tag -a "$VERSION" -m "version $VERSION"
     git push --tags
 }
