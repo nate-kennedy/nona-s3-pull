@@ -5,15 +5,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 VERSION=$(cat $DIR/../version)
 
 # Build Script
-versionCheck() {
-    if git rev-parse ${VERSION} >/dev/null 2>&1; then
-        echo "Found tag"
-        exit 1
-    else
-        echo "Tag not found"
-    fi
-}
-
 deployImage() {
     eval $(aws ecr get-login --no-include-email --region us-east-1)
 
@@ -26,15 +17,4 @@ deployImage() {
     docker push ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:${VERSION}
 }
 
-tagVersion() {
-    git config --global user.email "travis@travis-ci.org"
-    git config --global user.name "Travis CI"
-    git checkout https://${GIT_TOKEN}@github.com/nate-kennedy/nona-s3-pull.git/ > /dev/null 2>&1
-    cd nona-s3-pull/
-    git tag -a "$VERSION" -m "version $VERSION"
-    git push --tags
-}
-
-versionCheck
 deployImage
-tagVersion

@@ -6,11 +6,22 @@ install:
 - pip install awscli --upgrade
 script:
 - bash bin/build
+
+before_deploy:
+  - git config --local user.name "travis"
+  - git config --local user.email "travis"
+  - git tag -a "$(cat ./version)" -m "version $(cat ./version)"
 deploy:
-  provider: script
-  script: bash bin/deploy
-  on:
-    branch: master
+  - provider: script
+    script: bash bin/deploy
+    on:
+      branch: master
+  - provider: releases
+    api_key:
+      secure: H3iE/Keenqc1LzncwkEyIhjigO33KYyGbKGcnKe+ePqE+5vT/plpEkSODEwe6Fv6nueEdUJUNFauNEhFDIp2QLP7aQexEEPY4MfkGGF9xVvaJxfqYeTIQeDlcGG72CPeJHKYWz+GQXoDLrPFmE1LUAveh80E5ns8YPqV0wIEEwG8tL3aRGh1Juxf/yvRBQRjRwcL3qUavBmU82YxAbu1Sp/0ERpYl/QDdYONzc3Iy4hGPYi3FsVkrKynquDlZ0jfGwRYulA4wFLaPUQaGVydL/sBOHecfVXX47hVIUxvTfpSZeEH1a2Mq2rjWtK9S/P7U/9zF8yqSXyxz39SHzaUcupnu8nZVaZ1gPM20Y15b2zzLxNmC8rmb/q/Awv7nxqPL/+wlqOKgROYuRrW0/TE+aCHnto7qf+GdI5lU6NRtZMcT5YfS9pFYqQZWZ59O1FE64mFr3tBanZWZKx/Sd6WVFymvIlmAyOCTpdv/wOXHBF/bB83tGLxLpD2zSlOMQOXVG35ubt6yk3hCpJbE1MwePhqQAZ5BC8KN50X2bPsZ49fP8dP+Jr9RBRB0WOgyGwoJ2w+hx9x8QnDAh2z/CE/pPKcLasag0ybcX9uDJ+ADI8qxPQiHlecLd3Xt4bCNt542hH/Hs1qU5B3Kmh5P3jfUe6KaeqdczRvY0OFsj0Rq64=
+    file: ''
+    on:
+      branch: master
 env:
   global:
   - secure: yVMcJosnoXSC+h8BakF1bsepI9Jk1y2aG7XBZ3IS22oFZPwTVWL5xuQk2Sql0cMqJGy+/VuGAWjZDID1GhDm+qGDh4I5xbbqwbLImov687VFaABMj2qAk9+DidbE7E4UTFiG5G/i4Q9VJNO9dtaEL7JFpVwcw5/K+ZwqDVlgKEATy2vmtY30KaSQAGE4VpDjKHGz469f61LC6sX2ghJoFlHZViefRy+aqDGls3BiykqcUeZT2/OFr5jN8lf5FT4obWXovxTi6/ROnlrtEmZM3BYCXk3fKXX9MJQ9d4lOFtXmtnlZdPiXCiPghlR1C4TJMndfaO+LrQh/HqFXXui0+uf9RvZIGnsF7fYsHNXTKQv7ErgAZL1qaAcMRMmwcGOeDX6e8kipx0eTALmF2+hDstzLBPcCvBW012pYdU9IX3I9r5Ba2X8bU7ZbEBBaRQEQiJM9yd0R1bNkSV9UbRF/qfVNNk4atqL37YBvcsm9sh6RJLXZ+rsuAaPOcsC3ZGZ7cFKlTdQ5Glt84DcR6Bany1zzxO241UbyO1jBF7XSIF5CUZZxwInrur1Og0xlQuGUucviX0iGTA2eyZF8DduNLL/8PhHXBqJ3qJdzoqqY1i8VGFKAFULmwUcZqezb2PcVqke/SW6BvFEm+JqwqnvB+C8iv9UNKZ3NtSp13iw9yeI=
