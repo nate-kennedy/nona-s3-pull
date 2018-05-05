@@ -17,4 +17,11 @@ deployImage() {
     docker push ${AWS_ACCOUNT_NUM}.dkr.ecr.us-east-1.amazonaws.com/nona-s3-pull:${VERSION}
 }
 
+tagGit() {
+  git config --local user.name "travis"
+  git config --local user.email "travis"
+  git tag -a "${VERSION}" -m "version: ${VERSION}"
+}
+
 deployImage
+tagGit

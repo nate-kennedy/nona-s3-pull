@@ -7,10 +7,6 @@ install:
 script:
 - bash bin/build
 
-before_deploy:
-  - git config --local user.name "travis"
-  - git config --local user.email "travis"
-  - git tag -a "$(cat ./version)" -m "version $(cat ./version)"
 deploy:
   - provider: script
     script: bash bin/deploy
